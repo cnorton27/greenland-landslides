@@ -1,0 +1,73 @@
+# ==========================================
+# Python and Environments (Cross-Platform)
+# ==========================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Virtual Environments (.venv)
+.venv/
+venv/
+ENV/
+env/
+
+# Conda environment files and local folders
+.conda/
+conda-env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# ==========================================
+# macOS System Files
+# ==========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.VolumeIcon.icns
+.com.apple.timemachine.donotbackup
+
+# ==========================================
+# Windows System Files
+# ==========================================
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ==========================================
+# IDEs and Editors (VS Code / PyCharm)
+# ==========================================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# ==========================================
+# Environment Variables and Secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+secrets.json
+
+# ==========================================
+# Data and InSAR Files (Project Specific)
+# ==========================================
+data/
+*.zip
+*.tar.gz
+*.tiff
+*.tif
+*.dem
