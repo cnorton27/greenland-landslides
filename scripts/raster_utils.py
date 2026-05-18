@@ -5,6 +5,7 @@ import numpy as np
 import rasterio as rio
 import matplotlib.pyplot as plt
 import os
+import pathlib
 
 
 #processing data
@@ -22,27 +23,26 @@ def differencing(raster1,
    Takes two DSMs (.tif) and a clip area (.shp) and computes the difference between both models. Resampl 
    Outputs a raster later with each pixel value representing the difference.
    """
-
-   raster1_name = os.path.splitext(os.path.basename(raster1))[0]
-   folder_name = clip_layer_name[:-8] + "_" + raster1_name[:-4]
+   # Set up output paths for processed rasters
+   raster1_path = pathlib.Path(raster1)
+   raster2_path = pathlib.Path(raster2)
+   output_base = pathlib.Path(output_dir)
    
-   newpath = output_dir + clip_layer_name[:-8]
-   if not os.path.exists(newpath):
-      os.makedirs(newpath)
+   raster1_name = raster1_path.stem
+   raster2_name = raster2_path.stem
+   clip_stem = pathlib.Path(clip_layer_name).stem
    
-   print("Calculating DOM for ", clip_layer_name[:-8])
+   # Set up dirs
+   newpath = output_base / clip_stem
+   newpath.mkdir(parents=True, exist_ok=True)
+   
+   print(f"Calculating DOD for {clip_stem}")
 
-   #setting output paths
+   raster1_resampled = newpath / f"{raster1_name}_resampled.tif"
+   raster2_resampled = newpath / f"{raster2_name}_resampled.tif"
 
-   raster1_resampled = newpath + "\\" + os.path.splitext(os.path.basename(raster1))[0] + '_resampled.tif'
-   raster2_resampled = newpath + "\\" + os.path.splitext(os.path.basename(raster2))[0] + '_resampled.tif'
-
-   raster1_clip = newpath + "\\" + os.path.splitext(os.path.basename(raster1))[0] + '_clip.tif'
-   raster2_clip = newpath + "\\" + os.path.splitext(os.path.basename(raster2))[0] + '_clip.tif'
-
-
-   #resample rasters to the same resolution
-   resampling_method = "bilinear"
+   raster1_clip = newpath / f"{raster1_name}_clip.tif"
+   raster2_clip = newpath / f"{raster2_name}_clip.tif"
    
    resample(raster1_resampled, raster1, tr_x, tr_y, resampling_method)
    resample(raster2_resampled, raster2, tr_x, tr_y, resampling_method)
@@ -53,8 +53,7 @@ def differencing(raster1,
 
 
    #difference preprocessed rasters
-   
-   differenced_output = newpath + "\\" + "differenced_" + os.path.splitext(os.path.basename(raster1))[0] + os.path.splitext(os.path.basename(raster2))[0] + '.tif'
+   differenced_output = newpath / f"differenced_{raster1_name}_{raster2_name}.tif"
 
    raster_subtract(raster1_clip, raster2_clip, differenced_output)
 
@@ -134,13 +133,3 @@ def calculate_vol_loss(model, no_data: int = -2222):
         vol_deposited = np.abs(pixel_area * sum_of_deposited)
         print(f"Total volume change: {volume_change:.2f}", f"Total volume lost: {vol_loss:.2f}",f"Total vol deposited: {vol_deposited:.2f}",)
 
-
-#example use
-"""
-EastIceCALDs_4Aug2024 = r"Data\EastIceCALDs_4Aug2024_DSM.tif" #change later to reprojected version
-EastIceCALDs_30Jun2024 = r"Data\EastIceCALDs_30Jun2024_DSM.tif"
-EIC_cut = r'Data\EastIceCreekLower_cutline.shp'
-
-differencing(EastIceCALDs_30Jun2024, EastIceCALDs_4Aug2024, EIC_cut, 0.08, 0.08, 'EastIceCreekLower_cutline')
-
-"""
