@@ -7,8 +7,11 @@ from insardev import Stack
 from insardev_toolkit.HTTP import unzip
 from insardev_toolkit import UI
 
-
-# Step 1: Phase unwrapping
+# Step 0: Load the data
+dir = 'data'
+stack = Stack().load(dir)
+print(stack)
+# Step 1: Phase unwrapping using SNAPHU
 
 
 

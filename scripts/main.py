@@ -15,7 +15,6 @@ conda activate greenland_env
 
 pip install pygmtsar
 
-
 conda activate greenland_env
 conda install -c conda-forge numba llvmlite -y
 pip install pygmtsar
