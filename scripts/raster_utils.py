@@ -133,3 +133,12 @@ def calculate_vol_loss(model, no_data: int = -2222):
         vol_deposited = np.abs(pixel_area * sum_of_deposited)
         print(f"Total volume change: {volume_change:.2f}", f"Total volume lost: {vol_loss:.2f}",f"Total vol deposited: {vol_deposited:.2f}",)
 
+
+## Example use for Hanna
+raster1 = r"/Volumes/TundraTHAW/ALD_analysis/Data/DroneModels_raw/EastIceCreekALDs2025_20Jun2025_MODEL.tif"
+raster2 = r"/Volumes/TundraTHAW/ALD_analysis/Data/DroneModels_raw/EastIceCreekALDs2025_20Jun2025_MODEL"
+cutline = r"blah.shp"
+res = 2
+
+diff1 = differencing(raster1, raster2, cutline, res, res, "EastIceCreekLower_cutline")
+calculate_vol_loss(diff1)
