@@ -1,18 +1,38 @@
-#import mintpy
 import rasterio as rio
 import pygmtsar as pg
-# import modules to be used in the notebook
-from insardev import Stack
-# data downloader
+#from insardev import Stack
 from insardev_toolkit.HTTP import unzip
-from insardev_toolkit import UI
+from insardev_toolkit import UI, EOF, ASF, Tiles, XYZTiles
+import matplotlib.pyplot as plt
+import rioxarray as rxr
+
 
 # Step 0: Load the data
 dir = 'data'
+
+"""
 stack = Stack().load(dir)
 print(stack)
+
+stack.to_dataframe()
+
+plt.figure(figsize=(4,4))
+stack.plot(cmap='autumn', alpha=0.15, ax=plt.gca())
+
+
+gmap = XYZTiles().download_googlesatellite(stack.to_dataframe().buffer(5_000), zoom=10)
+gmap.plot.imshow(ax=plt.gca(), zorder=-1, add_labels=False)
+plt.gca().set_title(f'NISAR Burst Footprints')
+"""
+
 # Step 1: Phase unwrapping using SNAPHU
 
+int1 = r"data/InSAR/S1_Sullorsuaq_T025D_006d_20171015_20171021_adf.diff.tif"
+
+wrapped_phase = rxr.open_rasterio(int1, engine="rasterio").squeeze("band")
+corr = rxr.open_rasterio("corr.tif", engine="rasterio").squeeze("band")
+
+phase, conncomp = wrapped_phase.unwrap2d_irls(weight=corr).compute()
 
 
 # Step 2: Convert phase to displacement

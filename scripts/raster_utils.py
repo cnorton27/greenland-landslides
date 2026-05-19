@@ -109,14 +109,14 @@ def raster_subtract(raster1_clip, raster2_clip, out_path):
       return out_path
 
 
-def calculate_vol_loss(model, no_data: int = -2222):
+def calculate_vol_loss(model):
     """
     Takes a differenced drone model (.tif) and calculates the total volume loss and carbon released.
     Model needs to be projected to UTM for units to be in metres
     """
     with rio.open(model) as src:
         band1 = src.read(1, masked = True)
-        band1.data[band1.data == no_data] = 0
+        #band1.data[band1.data == -2222] = 0
 
         X_res, Y_res = src.res #meters/pixel
         print(X_res, Y_res)
