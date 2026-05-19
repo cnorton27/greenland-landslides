@@ -1,20 +1,16 @@
 #import mintpy
 import rasterio as rio
 import pygmtsar as pg
+# import modules to be used in the notebook
+from insardev import Stack
+# data downloader
+from insardev_toolkit.HTTP import unzip
+from insardev_toolkit import UI
 
 
 # Step 1: Phase unwrapping
 
-pipeline = pg.Pipeline("data")
 
-# Compute, mask, and unwrap all pairs seamlessly in one command
-# This automatically calls SNAPHU across multi-core processors
-
-pipeline.unwrap(
-    threshold=0.2,       # Masks out any pixels with coherence below 0.2
-    grid=True,           # Uses geo-referenced grid arrays
-    method='snaphu'      # Uses the SNAPHU engine configuration
-)
 
 # Step 2: Convert phase to displacement
 
@@ -23,3 +19,4 @@ pipeline.unwrap(
 
 
 # Step 4: Times-analysis
+

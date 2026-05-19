@@ -2,6 +2,8 @@
 GitHub repo for analysis of landslide hazards in Greenland
 
 
+
+
 ## Setting up environment
 
 If using conda env. (recommended when using geospatial packages that have C++ binaries) run these lines in your terminal to 
