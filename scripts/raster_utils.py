@@ -126,19 +126,21 @@ def calculate_vol_loss(model):
         sum_of_deposited = np.sum(band1[band1 > 0])
         
         pixel_area = abs(X_res * Y_res)
+        print("PIXEL AREA", pixel_area)
 
-        #total area divided by resolution = 
-        volume_change = pixel_area * sum_of_all_values
-        vol_loss = np.abs(pixel_area * sum_of_vol_loss)
-        vol_deposited = np.abs(pixel_area * sum_of_deposited)
-        print(f"Total volume change: {volume_change:.2f}", f"Total volume lost: {vol_loss:.2f}",f"Total vol deposited: {vol_deposited:.2f}",)
+        vol_loss = pixel_area * sum_of_vol_loss
+        total_net_change = vol_loss + vol_deposited
+        total_material_moved = abs(vol_loss) + abs(vol_deposited)
+
+        vol_deposited = pixel_area * sum_of_deposited
+        print(f"Total net change: {total_net_change:.2f}", f"Total material moved: {total_material_moved:.2f}", f"Total volume lost: {vol_loss:.2f}",f"Total vol deposited: {vol_deposited:.2f}",)
 
 
-## Example use for Hanna
-raster1 = r"/Volumes/TundraTHAW/ALD_analysis/Data/DroneModels_raw/EastIceCreekALDs2025_20Jun2025_MODEL.tif"
-raster2 = r"/Volumes/TundraTHAW/ALD_analysis/Data/DroneModels_raw/EastIceCreekALDs2025_20Jun2025_MODEL"
-cutline = r"blah.shp"
-res = 2
+# Example usage:
+# diff1 = r"data/DoD_landslide.tif"
+# calculate_vol_loss(diff1)
 
-diff1 = differencing(raster1, raster2, cutline, res, res, "EastIceCreekLower_cutline")
+
+diff1 = r"data/DoD_landslide.tif"
 calculate_vol_loss(diff1)
+

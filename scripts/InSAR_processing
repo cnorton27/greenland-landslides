@@ -1,8 +1,10 @@
 import rasterio as rio
 import pygmtsar as pg
 #from insardev import Stack
-from insardev_toolkit.HTTP import unzip
-from insardev_toolkit import UI, EOF, ASF, Tiles, XYZTiles
+#from insardev_toolkit.HTTP import unzip
+#from insardev_toolkit import UI, EOF, ASF, Tiles, XYZTiles
+#from insardev_pygmtsar import UI
+from insardev_toolkit import EOF, ASF, Tiles, XYZTiles
 import matplotlib.pyplot as plt
 import rioxarray as rxr
 
@@ -29,6 +31,14 @@ plt.gca().set_title(f'NISAR Burst Footprints')
 
 int1 = r"data/InSAR/S1_Sullorsuaq_T025D_006d_20171015_20171021_adf.diff.tif"
 
+with rio.open(int1) as int:
+    int_b1 = int.read(1)
+    int_b2 = int.read(2)
+    int_b3 = int.read(3)
+
+print(int_b2[500, 1000:2000])
+
+"""
 wrapped_phase = rxr.open_rasterio(int1, engine="rasterio").squeeze("band")
 corr = rxr.open_rasterio("corr.tif", engine="rasterio").squeeze("band")
 
@@ -39,7 +49,7 @@ phase, conncomp = wrapped_phase.unwrap2d_irls(weight=corr).compute()
 
 
 # Step 3: Geocoding and terrain correction with ArcticDEM
-
+"""
 
 # Step 4: Times-analysis
 
